@@ -2,6 +2,7 @@ import json
 import os
 from langchain_groq import ChatGroq
 from langchain_core.prompts import ChatPromptTemplate
+from langchain.prompts import PromptTemplate
 import re
 
 def crop_with_tags_and_overwrite(file_path,content):
@@ -29,9 +30,7 @@ class Build:
                             2. **Body Section:** This section contains the actual resume content that can be edited.
 
                             Your task is to update the **Body Section** of the resume based on the user's provided details. The user has supplied the following:
-                            - **Desired Role:** {desired_role}
-                            - **Name:** {name}
-                            - **Entry Level:** {role_level}
+                            - **form data** - {form_data}
 
                             When updating the resume, please ensure the following:
 
@@ -58,9 +57,7 @@ class Build:
                             This prompt should give the LLM a solid direction to produce the edited LaTeX resume per the user's requirements. Let me know if you need further tweaks or additional instructions!
                             '''
         self.initial_template = EDITOR_PROMPT.format(
-            role_level=self.form_data['role_level'],
-            name = self.form_data['user_name'],
-            desired_role=self.form_data['desired_role'],
+            form_data = self.form_data,
             resume=self.resume
             )
     
